@@ -1,0 +1,18 @@
+name: 'Auto Labeler'
+description: 'Auto label pull requests based on the title.'
+
+inputs:
+  github-token:
+    description: 'Github token'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Auto labeling
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        PR_NUMBER: ${{ github.event.number }}
+        REPO: ${{ github.repository_owner }}/${{ github.event.repository.name }}
+      run: ${{ github.action_path }}scripts/label.sh
